@@ -17,6 +17,26 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            manifest.srcFile "src/main/AndroidManifest.xml"
+            java.srcDirs = ['src/main/java', 'src/main/java-gen']
+            res.srcDirs = ["src/main/res"]
+        }
+    }
+
+//    dexOptions {
+//        incremental true
+//        javaMaxHeapSize "4g"
+//    }
+}
+
+
+apply plugin: 'org.greenrobot.greendao'
+greendao {
+    schemaVersion 1
+    daoPackage 'com.fyl.ninewordjun.greendao.gen'
+    targetGenDir 'src/main/java'
 }
 
 dependencies {
@@ -26,10 +46,26 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.1'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'de.greenrobot:greendao:2.1.0'
-
-
     testCompile 'junit:junit:4.12'
+
+    compile 'org.greenrobot:eventbus:3.0.0'
+
+    compile 'org.greenrobot:greendao:3.2.0'
+    compile 'org.greenrobot:greendao-generator:3.0.0'
+
+    // http://www.jianshu.com/p/310726a75045
+    //Retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    //Gson converter
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    //Okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.5.0'
+
+    //RxJava的依赖包
+    compile 'io.reactivex.rxjava2:rxjava:2.0.8'
+    //RxAndroid的依赖包
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    //RxJava2 Retrofit  Adapter
+    compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
 }
