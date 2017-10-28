@@ -13,7 +13,13 @@ import com.fyl.utils.FilePathUtils;
 import com.fyl.utils.Log;
 
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
+
+import io.reactivex.schedulers.Schedulers;
 
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -32,7 +38,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initView();
         initEvent();
         mUserDao = DBHelper.getInstance().getDaoSession().getUserDao();
-}
+        EventBus.getDefault().register(this);
+    }
 
     private void initEvent() {
         mAdd.setOnClickListener(this);
@@ -87,11 +94,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mTitle.setText(mUser.getName());
     }
 
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(String event) {
+        Log.d("xx", event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(Number event) {
+        Log.d("xx", event + "");
+    }
+
     /**
      * 删除数据
      */
     private void deleteDate() {
-        deleteUserById(2);
+        // deleteUserById(2);
+        Schedulers.io().createWorker().schedule(new Runnable() {
+            @Override
+            public void run() {
+                EventBus.getDefault().postSticky("test1");
+                EventBus.getDefault().post(2);
+            }
+        });
     }
 
     /**
