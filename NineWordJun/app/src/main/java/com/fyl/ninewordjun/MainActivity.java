@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.fyl.ninewordjun.greendao.db.DBHelper;
 import com.fyl.ninewordjun.greendao.entity.User;
 import com.fyl.ninewordjun.greendao.gen.UserDao;
+import com.fyl.ninewordjun.media.VoicePlayer;
 import com.fyl.utils.FilePathUtils;
 import com.fyl.utils.Log;
 
@@ -60,13 +61,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button:
-                addDate();
+//                addDate();
+                VoicePlayer.getInstance().setStatus(VoicePlayer.Status.Play);
                 break;
             case R.id.button2:
-                deleteDate();
+                VoicePlayer.getInstance().setStatus(VoicePlayer.Status.Pause);
+//                deleteDate();
                 break;
             case R.id.button3:
-                updateDate();
+                VoicePlayer.getInstance().setStatus(VoicePlayer.Status.Stop);
+//                updateDate();
                 break;
             case R.id.button4:
                 findDate();
@@ -101,6 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(Number event) {
+        Log.d("xx", event + "");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(String event) {
         Log.d("xx", event + "");
     }
 

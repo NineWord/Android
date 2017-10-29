@@ -2,6 +2,7 @@ package com.fyl.ninewordjun;
 
 import android.app.Application;
 import com.fyl.ninewordjun.greendao.db.DBHelper;
+import com.fyl.ninewordjun.media.VoicePlayer;
 
 import io.reactivex.schedulers.Schedulers;
 
@@ -23,6 +24,7 @@ public class AppContext extends Application {
         super.onCreate();
         instances = this;
 
+        VoicePlayer.getInstance();
         Schedulers.io().createWorker().schedule(new Runnable() {
             @Override
             public void run() {
