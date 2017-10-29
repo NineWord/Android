@@ -5,7 +5,6 @@
     android:orientation="horizontal"
     android:background="#F5F0F0">
 
-
     <Button
         android:id="@+id/btnClose"
         android:layout_width="40dp"
@@ -94,7 +93,7 @@
         android:background="#00fff0" />
 
     <Button
-        android:id="@+id/btnPlay"
+        android:id="@+id/btnPause"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center_vertical"

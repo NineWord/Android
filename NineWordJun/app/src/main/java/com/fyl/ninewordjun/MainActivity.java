@@ -1,17 +1,25 @@
 package com.fyl.ninewordjun;
 
+import android.content.Context;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.fyl.ninewordjun.greendao.db.DBHelper;
 import com.fyl.ninewordjun.greendao.entity.User;
 import com.fyl.ninewordjun.greendao.gen.UserDao;
 import com.fyl.ninewordjun.media.VoicePlayer;
+import com.fyl.ninewordjun.media.VoiceView;
 import com.fyl.utils.FilePathUtils;
 import com.fyl.utils.Log;
+import com.fyl.utils.ScreenUtils;
 
 
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +34,8 @@ import io.reactivex.schedulers.Schedulers;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView mTitle;
     private Button mAdd,mDelete,mUpdate,mFind;
+    private VoiceView voiceView;
+    private FrameLayout layout1;
 
     private User mUser;
     private UserDao mUserDao;
@@ -40,6 +50,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initEvent();
         mUserDao = DBHelper.getInstance().getDaoSession().getUserDao();
         EventBus.getDefault().register(this);
+
+        layout1 = (FrameLayout) findViewById(R.id.layout_1);
+        voiceView = new VoiceView(this);
+        FrameLayout.LayoutParams params=new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, spToPx(this, 50));
+        params.gravity = Gravity.BOTTOM;
+        layout1.addView(voiceView, params);
+    }
+
+    /**
+     * 将sp值转换为px值，保证文字大小不变
+     *
+     * @param spValue
+     * @return
+     */
+    public static int spToPx(Context appContext, float spValue) {
+        return (int) (spValue  * appContext.getResources().getDisplayMetrics().scaledDensity + 0.5f);
     }
 
     private void initEvent() {
@@ -57,23 +83,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mFind = (Button) findViewById(R.id.button4);
     }
 
+    private MediaPlayer player;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.button:
-//                addDate();
-                VoicePlayer.getInstance().setStatus(VoicePlayer.Status.Play);
+                VoicePlayer.getInstance().play("http://172.168.1.108/test.mp3");
                 break;
             case R.id.button2:
-                VoicePlayer.getInstance().setStatus(VoicePlayer.Status.Pause);
 //                deleteDate();
+                VoicePlayer.getInstance().replay();
                 break;
             case R.id.button3:
-                VoicePlayer.getInstance().setStatus(VoicePlayer.Status.Stop);
 //                updateDate();
                 break;
             case R.id.button4:
-                findDate();
+                layout1.removeView(voiceView);
+                voiceView =null;
+//                findDate();
                 break;
         }
     }
