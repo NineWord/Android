@@ -33,9 +33,7 @@ import java.util.List;
  */
 
 public class VoiceView extends LinearLayout implements View.OnClickListener{
-    private Button btnClose;
-    private Button btnPause;
-    private ImageView ivIcon, ivOpen;
+    private ImageView ivClose, ivPause, ivIcon;
     private TextView tvTitle, tvTime, tvAuthor;
 
     //TODO 设置文本图片。。。
@@ -54,16 +52,15 @@ public class VoiceView extends LinearLayout implements View.OnClickListener{
         View view = inflater.inflate(R.layout.view_voice, this);
 
         ivIcon = view.findViewById(R.id.ivIcon);
-        ivOpen = view.findViewById(R.id.ivOpen);
 
         tvTitle = view.findViewById(R.id.tvTitle);
         tvTime = view.findViewById(R.id.tvTime);
         tvAuthor = view.findViewById(R.id.tvAuthor);
 
-        btnClose = view.findViewById(R.id.btnClose);
-        btnClose.setOnClickListener(this);
-        btnPause = view.findViewById(R.id.btnPause);
-        btnPause.setOnClickListener(this);
+        ivClose = view.findViewById(R.id.ivClose);
+        ivClose.setOnClickListener(this);
+        ivPause = view.findViewById(R.id.ivPause);
+        ivPause.setOnClickListener(this);
 
         this.setOnClickListener(this);
     }
@@ -84,11 +81,11 @@ public class VoiceView extends LinearLayout implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnClose:
-                VoicePlayer.getInstance().stop();
-                this.setVisibility(GONE);
-                break;
-            case R.id.btnPause:
+            case R.id.ivClose:
+            VoicePlayer.getInstance().stop();
+            this.setVisibility(GONE);
+            break;
+            case R.id.ivPause:
                 VoicePlayer.getInstance().pause();
                 break;
             default:
@@ -101,12 +98,12 @@ public class VoiceView extends LinearLayout implements View.OnClickListener{
 
     private void updatePlayButton(VoicePlayer.Status status) {
         if (status == VoicePlayer.Status.Play) {
-            btnPause.setText("播放");
-            btnClose.setVisibility(GONE);
+            ivPause.setBackgroundResource(R.drawable.a4002);
+            ivClose.setVisibility(GONE);
             this.setVisibility(VISIBLE);
         } else {
-            btnPause.setText("暂停");
-            btnClose.setVisibility(VISIBLE);
+            ivPause.setBackgroundResource(R.drawable.a4001);
+            ivClose.setVisibility(VISIBLE);
         }
     }
 

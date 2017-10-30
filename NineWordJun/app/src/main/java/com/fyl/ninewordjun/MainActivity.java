@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         layout1 = (FrameLayout) findViewById(R.id.layout_1);
         voiceView = new VoiceView(this);
-        FrameLayout.LayoutParams params=new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, spToPx(this, 50));
+        FrameLayout.LayoutParams params=new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, spToPx(this, 50));
         params.gravity = Gravity.BOTTOM;
         layout1.addView(voiceView, params);
     }
